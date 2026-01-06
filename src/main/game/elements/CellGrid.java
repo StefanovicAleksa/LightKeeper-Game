@@ -1,6 +1,6 @@
-package game.elements;
+package main.game.elements;
 
-import settings.GameConfig;
+import main.settings.GameConfig;
 
 public class CellGrid {
     private GameConfig config;
@@ -34,17 +34,22 @@ public class CellGrid {
     }
 
     public void toggleMark(int i, int j) {
-        if (cells[i][j] instanceof RegularCell cell) {
+        if (cells[i][j] instanceof RegularCell cell && !cell.hasBulb()) {
             cell.setMarked(!cell.isMarked());
         }
     }
 
     public void toggleBulb(int i, int j) {
-        if(cells[i][j] instanceof RegularCell cell) {
+        if(cells[i][j] instanceof RegularCell cell && !cell.isMarked()) {
             boolean toggleOn = !cell.hasBulb();
 
             cell.setHasBulb(toggleOn);
-            if(!toggleOn) cell.resetBulbCollisionLevel();
+            if(toggleOn)
+                cell.changeLightLevel(1);
+            else {
+                cell.changeLightLevel(-1);
+                cell.resetBulbCollisionLevel();
+            }
 
             handleLightRay(i, j, 'n', toggleOn, cell);
             handleLightRay(i, j, 's', toggleOn, cell);

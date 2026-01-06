@@ -1,4 +1,4 @@
-package game.elements;
+package main.game.elements;
 
 public class RegularCell extends Cell {
     private boolean isMarked;

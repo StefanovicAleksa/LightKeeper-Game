@@ -1,16 +1,18 @@
-import game.elements.CellGrid;
-import game.presentation.GamePanel;
-import settings.GameConfig;
-import settings.ThemeConfig;
+package main;
+
+import main.game.elements.CellGrid;
+import main.game.presentation.GamePanel;
+import main.settings.GameConfig;
+import main.settings.ThemeConfig;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 
-public class AkariGame {
+public class LightkeeperGame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Akari Game");
+            JFrame frame = new JFrame("Lightkeeper Game");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout());
 

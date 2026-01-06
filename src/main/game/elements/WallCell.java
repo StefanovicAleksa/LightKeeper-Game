@@ -1,4 +1,4 @@
-package game.elements;
+package main.game.elements;
 
 public class WallCell extends Cell {
     @Override

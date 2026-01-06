@@ -1,9 +1,10 @@
-package game.presentation;
+package main.game.presentation;
 
-import game.elements.Cell;
-import game.elements.CellGrid;
-import settings.GameConfig;
-import settings.ThemeConfig;
+import main.game.elements.Cell;
+import main.game.elements.CellGrid;
+import main.game.elements.RegularCell;
+import main.settings.GameConfig;
+import main.settings.ThemeConfig;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -29,21 +30,17 @@ public class GamePanel extends JPanel {
         int n = config.getGridSize();
         setLayout(new GridLayout(n, n));
 
-        // Calculate window size based on theme
         int pixelSize = n * theme.getCellPixelSize();
         setPreferredSize(new Dimension(pixelSize, pixelSize));
 
-        // Use the method you requested
         Cell[][] cells = grid.getCells();
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                // Access array directly
                 Cell cell = cells[i][j];
 
                 CellButton button = new CellButton(i, j, cell, theme);
 
-                // Add Click Handler
                 button.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
@@ -60,13 +57,16 @@ public class GamePanel extends JPanel {
         int r = source.getRow();
         int c = source.getCol();
 
-        if (SwingUtilities.isRightMouseButton(e)) {
+        if(SwingUtilities.isRightMouseButton(e)) {
             grid.toggleMark(r, c);
-        } else if (SwingUtilities.isLeftMouseButton(e)) {
-            grid.toggleBulb(r, c);
+        }
+        else if(SwingUtilities.isLeftMouseButton(e)) {
+            if(source.getCell() instanceof RegularCell rc && rc.isMarked())
+                grid.toggleMark(r, c);
+            else
+                grid.toggleBulb(r, c);
         }
 
-        // Force UI update
         repaint();
     }
 }

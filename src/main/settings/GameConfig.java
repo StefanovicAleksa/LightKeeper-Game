@@ -1,4 +1,4 @@
-package settings;
+package main.settings;
 
 public class GameConfig {
     private int gridSize;
