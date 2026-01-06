@@ -1,16 +1,12 @@
-package main.game.presentation;
+package main.game.presentation.elements.game;
 
-import main.game.elements.Cell;
-import main.game.elements.RegularCell;
-import main.game.elements.WallCell;
+import main.game.domain.models.game.Cell;
+import main.game.domain.models.game.RegularCell;
+import main.game.domain.models.game.WallCell;
 import main.settings.ThemeConfig;
 
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 
 public class CellButton extends JButton {
     private final int row;
@@ -45,9 +41,7 @@ public class CellButton extends JButton {
         if (cell instanceof WallCell) {
             g2.setColor(theme.getColorWall());
         }
-        else if (cell instanceof RegularCell) {
-            RegularCell rc = (RegularCell) cell;
-
+        else if (cell instanceof RegularCell rc) {
             if (rc.getBulbCollisionLevel() > 0)
                 g2.setColor(theme.getColorBulbError());
             else if (rc.getLightLevel() > 0)
@@ -61,9 +55,7 @@ public class CellButton extends JButton {
         g2.setColor(Color.GRAY);
         g2.drawRect(0, 0, w - 1, h - 1);
 
-        if (cell instanceof RegularCell) {
-            RegularCell rc = (RegularCell) cell;
-
+        if (cell instanceof RegularCell rc) {
             if (rc.hasBulb()) {
                 Image img = theme.getBulbImage();
                 if (img != null) {

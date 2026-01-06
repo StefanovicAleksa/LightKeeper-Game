@@ -1,4 +1,4 @@
-package main.game.elements;
+package main.game.domain.models.game;
 
 public class RegularCell extends Cell {
     private boolean isMarked;

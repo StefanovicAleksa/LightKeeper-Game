@@ -1,4 +1,4 @@
-package main.game.elements;
+package main.game.domain.models.game;
 
 import main.settings.GameConfig;
 
@@ -120,7 +120,5 @@ public class CellGrid {
 
         return true;
     }
-
-
 
 }

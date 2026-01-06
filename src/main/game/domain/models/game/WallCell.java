@@ -1,4 +1,4 @@
-package main.game.elements;
+package main.game.domain.models.game;
 
 public class WallCell extends Cell {
     @Override

@@ -12,6 +12,8 @@ public class ThemeConfig {
     private Color colorLit;
     private Color colorBulbError;
     private Color colorMark;
+    private Color colorBackground;
+    private Color colorText;
     private int cellPixelSize;
 
     private Image bulbImage;
@@ -23,6 +25,10 @@ public class ThemeConfig {
         this.colorLit = new Color(255, 255, 153);
         this.colorBulbError = new Color(255, 102, 102);
         this.colorMark = Color.GRAY;
+
+        this.colorBackground = new Color(35, 35, 40);
+        this.colorText = new Color(220, 220, 220);
+
         this.cellPixelSize = 50;
 
         loadImages();
@@ -33,30 +39,20 @@ public class ThemeConfig {
             bulbImage = ImageIO.read(new File("src/resources/images/light-bulb.png"));
             markImage = ImageIO.read(new File("src/resources/images/close.png"));
         } catch (IOException e) {
-            System.out.println("Failed loading images");
             bulbImage = null;
             markImage = null;
         }
     }
 
     public Color getColorWall() { return colorWall; }
-    public void setColorWall(Color c) { this.colorWall = c; }
-
     public Color getColorRegular() { return colorRegular; }
-    public void setColorRegular(Color c) { this.colorRegular = c; }
-
     public Color getColorLit() { return colorLit; }
-    public void setColorLit(Color c) { this.colorLit = c; }
-
     public Color getColorBulbError() { return colorBulbError; }
-    public void setColorBulbError(Color c) { this.colorBulbError = c; }
-
     public Color getColorMark() { return colorMark; }
-    public void setColorMark(Color c) { this.colorMark = c; }
+    public Color getColorBackground() { return colorBackground; }
+    public Color getColorText() { return colorText; }
 
     public int getCellPixelSize() { return cellPixelSize; }
-    public void setCellPixelSize(int size) { this.cellPixelSize = size; }
-
     public Image getBulbImage() { return bulbImage; }
     public Image getMarkImage() { return markImage; }
 }
