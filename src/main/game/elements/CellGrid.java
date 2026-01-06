@@ -113,7 +113,7 @@ public class CellGrid {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (cells[i][j] instanceof RegularCell cell && cell.getLightLevel() == 0)
+                if (cells[i][j] instanceof RegularCell cell && (cell.getLightLevel() == 0 || cell.getBulbCollisionLevel() > 0))
                     return false;
             }
         }
