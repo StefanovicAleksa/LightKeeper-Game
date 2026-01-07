@@ -1,16 +1,17 @@
 package main.game.presentation.elements.navigation;
 
-import main.settings.ThemeConfig;
+import main.settings.domain.models.ThemeConfig;
 
 import javax.swing.JButton;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
 
 public class PauseButton extends JButton {
     private final ThemeConfig theme;
@@ -22,6 +23,8 @@ public class PauseButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setToolTipText("Pause Game");
         addActionListener(action);
     }
 
@@ -29,37 +32,37 @@ public class PauseButton extends JButton {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
         int size = Math.min(getWidth(), getHeight()) - 4;
         int x = (getWidth() - size) / 2;
         int y = (getHeight() - size) / 2;
 
         if (getModel().isRollover()) {
-            g2.setColor(new Color(255, 255, 255, 40));
-        } else {
-            g2.setColor(new Color(255, 255, 255, 20));
+            Color tc = theme.getColorText();
+            g2.setColor(new Color(tc.getRed(), tc.getGreen(), tc.getBlue(), 40));
+            g2.fillOval(x, y, size, size);
         }
-        g2.fillOval(x, y, size, size);
 
         g2.setColor(theme.getColorText());
-        g2.setStroke(new java.awt.BasicStroke(2f));
+        g2.setStroke(new BasicStroke(2f));
         g2.drawOval(x, y, size, size);
 
-        g2.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        String text = "||";
+        Image icon = theme.getPauseImage();
+        if (icon != null) {
+            int iconSize = size / 2;
+            int ix = (getWidth() - iconSize) / 2;
+            int iy = (getHeight() - iconSize) / 2;
+            g2.drawImage(icon, ix, iy, iconSize, iconSize, null);
+        } else {
+            int cx = getWidth() / 2;
+            int cy = getHeight() / 2;
+            int h = size / 3;
+            int w = size / 10;
+            int gap = w / 2;
 
-        int textWidth = g2.getFontMetrics().stringWidth(text);
-        int textHeight = g2.getFontMetrics().getAscent();
-
-        g2.drawString(text, (getWidth() - textWidth) / 2, (getHeight() + textHeight) / 2 - 4);
-    }
-
-    @Override
-    public boolean contains(int x, int y) {
-        int size = Math.min(getWidth(), getHeight()) - 4;
-        int cx = (getWidth() - size) / 2;
-        int cy = (getHeight() - size) / 2;
-        Ellipse2D circle = new Ellipse2D.Float(cx, cy, size, size);
-        return circle.contains(x, y);
+            g2.fillRect(cx - w - gap, cy - h/2, w, h);
+            g2.fillRect(cx + gap, cy - h/2, w, h);
+        }
     }
 }

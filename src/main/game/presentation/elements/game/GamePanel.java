@@ -5,8 +5,8 @@ import main.game.domain.models.game.Cell;
 import main.game.domain.models.game.CellGrid;
 import main.game.domain.models.game.RegularCell;
 import main.game.service.GameManager;
-import main.settings.GameConfig;
-import main.settings.ThemeConfig;
+import main.settings.domain.models.GameConfig;
+import main.settings.domain.models.ThemeConfig;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -32,7 +32,6 @@ public class GamePanel extends JPanel {
 
     public void initializeLayout() {
         int n = config.getGridSize();
-        // Use a 2px gap to match the look of the working version
         setLayout(new GridLayout(n, n, 2, 2));
         setOpaque(false);
 
@@ -57,30 +56,23 @@ public class GamePanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        // Calculate the ideal size based on configuration (cells * pixels)
         int n = config.getGridSize();
         int defaultSize = n * theme.getCellPixelSize();
 
-        // If we are attached to a parent, try to fit inside it while maintaining a square aspect ratio
         if (getParent() != null) {
             int w = getParent().getWidth();
             int h = getParent().getHeight();
 
-            // Only resize if the parent has valid dimensions
             if (w > 0 && h > 0) {
-                // Find the smallest dimension to ensure the square fits entirely
                 int side = Math.min(w, h);
-                // Keep a minimum size to prevent UI collapse
                 side = Math.max(side, 100);
                 return new Dimension(side, side);
             }
         }
 
-        // Fallback size for initial packing or if parent is invalid
         return new Dimension(defaultSize, defaultSize);
     }
 
-    // Force minimum size to match preferred to prevent layout managers from squashing it
     @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();

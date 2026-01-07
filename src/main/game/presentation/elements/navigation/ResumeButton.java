@@ -1,6 +1,6 @@
 package main.game.presentation.elements.navigation;
 
-import main.settings.ThemeConfig;
+import main.settings.domain.models.ThemeConfig;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -17,7 +17,7 @@ public class ResumeButton extends JButton {
     public ResumeButton(ThemeConfig theme, ActionListener action) {
         this.theme = theme;
 
-        setPreferredSize(new Dimension(60, 60)); // Slightly larger for the dialog
+        setPreferredSize(new Dimension(60, 60));
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
@@ -33,10 +33,11 @@ public class ResumeButton extends JButton {
         int x = (getWidth() - size) / 2;
         int y = (getHeight() - size) / 2;
 
+        Color tc = theme.getColorText();
         if (getModel().isRollover()) {
-            g2.setColor(new Color(255, 255, 255, 40));
+            g2.setColor(new Color(tc.getRed(), tc.getGreen(), tc.getBlue(), 40));
         } else {
-            g2.setColor(new Color(255, 255, 255, 20));
+            g2.setColor(new Color(tc.getRed(), tc.getGreen(), tc.getBlue(), 20));
         }
         g2.fillOval(x, y, size, size);
 
@@ -46,7 +47,6 @@ public class ResumeButton extends JButton {
 
         int[] xPoints = {x + size / 3 + 2, x + size / 3 + 2, x + 2 * size / 3 + 2};
         int[] yPoints = {y + size / 3, y + 2 * size / 3, y + size / 2};
-
         g2.fillPolygon(xPoints, yPoints, 3);
     }
 

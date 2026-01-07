@@ -3,10 +3,14 @@ package main.game.presentation.elements.game;
 import main.game.domain.models.game.Cell;
 import main.game.domain.models.game.RegularCell;
 import main.game.domain.models.game.WallCell;
-import main.settings.ThemeConfig;
+import main.settings.domain.models.ThemeConfig;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 
 public class CellButton extends JButton {
     private final int row;
@@ -52,7 +56,7 @@ public class CellButton extends JButton {
 
         g2.fillRect(0, 0, w, h);
 
-        g2.setColor(Color.GRAY);
+        g2.setColor(theme.getColorMark());
         g2.drawRect(0, 0, w - 1, h - 1);
 
         if (cell instanceof RegularCell rc) {
@@ -63,7 +67,7 @@ public class CellButton extends JButton {
                     g2.drawImage(img, p, p, w - 2*p, h - 2*p, null);
                 }
                 else {
-                    g2.setColor(Color.BLACK);
+                    g2.setColor(theme.getColorWall());
                     g2.fillOval(w/4, h/4, w/2, h/2);
                 }
             }

@@ -1,4 +1,4 @@
-package main.game.presentation.elements.navigation;
+package main.menu.presentation.elements;
 
 import main.settings.domain.models.ThemeConfig;
 
@@ -11,23 +11,24 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 
-public class StartNewLevelButton extends JButton {
+public class StartGameButton extends JButton {
     private final ThemeConfig theme;
-    private final int radius = 15;
 
-    public StartNewLevelButton(ThemeConfig theme, ActionListener action) {
-        super("Start New Level");
+    public StartGameButton(ThemeConfig theme, ActionListener action) {
+        super("NEW GAME");
         this.theme = theme;
 
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
-        setFont(new Font("Segoe UI", Font.BOLD, 14));
+        setFont(new Font("Segoe UI", Font.BOLD, 16));
         setForeground(theme.getColorBackground());
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         addActionListener(action);
 
-        setPreferredSize(new Dimension(140, 35));
+        setPreferredSize(new Dimension(200, 50));
+        setMaximumSize(new Dimension(200, 50));
+        setAlignmentX(CENTER_ALIGNMENT);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class StartNewLevelButton extends JButton {
             g2.setColor(theme.getColorLit());
         }
 
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
 
         super.paintComponent(g);
     }

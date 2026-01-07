@@ -1,7 +1,7 @@
 package main.game.presentation.elements.game;
 
 import main.game.service.GameManager;
-import main.settings.ThemeConfig;
+import main.settings.domain.models.ThemeConfig;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +30,6 @@ public class TimeElapsed extends JPanel {
     }
 
     private void startTimer() {
-        // Update every 100ms (0.1s) to prevent visual lag when pausing
         Timer timer = new Timer(100, e -> updateTime());
         timer.start();
     }

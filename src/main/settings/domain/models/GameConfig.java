@@ -1,6 +1,10 @@
-package main.settings;
+package main.settings.domain.models;
 
-public class GameConfig {
+import java.io.Serializable;
+
+public class GameConfig implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int gridSize;
     private double wallRatio;
 

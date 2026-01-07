@@ -3,7 +3,7 @@ package main.game.presentation.elements.dialogs;
 import main.game.presentation.elements.navigation.RestartButton;
 import main.game.presentation.elements.navigation.ResumeButton;
 import main.game.service.GameManager;
-import main.settings.ThemeConfig;
+import main.settings.domain.models.ThemeConfig;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -44,7 +44,7 @@ public class ResumeDialog extends JDialog {
         resumeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeButton.setMaximumSize(new Dimension(60, 60));
 
-        RestartButton restartButton = new RestartButton(e -> {
+        RestartButton restartButton = new RestartButton(theme, e -> {
             gameManager.restartLevel();
             dispose();
         });

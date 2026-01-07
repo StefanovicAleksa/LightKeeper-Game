@@ -1,6 +1,6 @@
 package main.game.presentation.elements.dialogs;
 
-import main.settings.ThemeConfig;
+import main.settings.domain.models.ThemeConfig;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -29,7 +28,6 @@ public class HelpDialog extends JDialog {
         contentPanel.setBackground(theme.getColorBackground());
         contentPanel.setBorder(BorderFactory.createLineBorder(theme.getColorText(), 1));
 
-        // --- Content Section ---
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         textPanel.setOpaque(false);
@@ -51,7 +49,6 @@ public class HelpDialog extends JDialog {
         addText(textPanel, "• Left Click: Place / Remove Bulb", theme);
         addText(textPanel, "• Right Click: Mark Cell (X)", theme);
 
-        // --- Button Section ---
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
@@ -72,7 +69,7 @@ public class HelpDialog extends JDialog {
     private void addHeader(JPanel panel, String text, ThemeConfig theme) {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        label.setForeground(theme.getColorLit()); // Use accent color for headers
+        label.setForeground(theme.getColorLit());
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(label);
         panel.add(Box.createVerticalStrut(5));
@@ -96,10 +93,10 @@ public class HelpDialog extends JDialog {
 
                 if (getModel().isRollover()) {
                     g2.setColor(theme.getColorLit().brighter());
-                    setForeground(Color.BLACK);
+                    setForeground(theme.getColorBackground());
                 } else {
                     g2.setColor(theme.getColorLit());
-                    setForeground(Color.BLACK);
+                    setForeground(theme.getColorBackground());
                 }
 
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);

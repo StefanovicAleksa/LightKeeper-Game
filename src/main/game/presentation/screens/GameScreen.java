@@ -4,31 +4,30 @@ import main.game.presentation.elements.dialogs.HelpDialog;
 import main.game.presentation.elements.dialogs.ResumeDialog;
 import main.game.presentation.elements.game.GamePanel;
 import main.game.presentation.elements.game.TimeElapsed;
+import main.game.presentation.elements.navigation.BackButton;
 import main.game.presentation.elements.navigation.HelpButton;
 import main.game.presentation.elements.navigation.PauseButton;
+import main.game.presentation.elements.navigation.SaveButton;
 import main.game.service.GameManager;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 
-public class GameScreen {
-    private final JFrame frame;
+public class GameScreen extends JPanel {
     private final GamePanel gamePanel;
     private final TimeElapsed timeElapsed;
     private final HelpButton helpButton;
     private final PauseButton pauseButton;
+    private final BackButton backButton;
+    private final SaveButton saveButton;
 
     public GameScreen(GameManager gameManager) {
-        frame = new JFrame("Lightkeeper");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-
-        frame.getContentPane().setBackground(gameManager.getThemeConfig().getColorBackground());
+        setLayout(new BorderLayout());
+        setBackground(gameManager.getThemeConfig().getColorBackground());
 
         this.gamePanel = new GamePanel(
                 gameManager.getGrid(),
@@ -36,16 +35,18 @@ public class GameScreen {
                 gameManager.getGameConfig(),
                 gameManager.getThemeConfig()
         );
-
         this.timeElapsed = new TimeElapsed(gameManager);
 
-        this.helpButton = new HelpButton(gameManager.getThemeConfig(), e -> {
-            HelpDialog.show(frame, gameManager.getThemeConfig());
-        });
+        this.helpButton = new HelpButton(gameManager.getThemeConfig(), e ->
+                HelpDialog.show(gameManager.getMainFrame(), gameManager.getThemeConfig())
+        );
 
-        this.pauseButton = new PauseButton(gameManager.getThemeConfig(), e -> {
-            ResumeDialog.show(frame, gameManager);
-        });
+        this.pauseButton = new PauseButton(gameManager.getThemeConfig(), e ->
+                ResumeDialog.show(gameManager.getMainFrame(), gameManager)
+        );
+
+        this.backButton = new BackButton(gameManager.getThemeConfig(), gameManager);
+        this.saveButton = new SaveButton(gameManager.getThemeConfig(), gameManager);
 
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -56,11 +57,13 @@ public class GameScreen {
         rightWrapper.add(helpButton);
         rightWrapper.add(pauseButton);
 
-        JPanel leftSpacer = new JPanel();
-        leftSpacer.setOpaque(false);
-        leftSpacer.setPreferredSize(new Dimension(100, 45));
+        JPanel leftWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        leftWrapper.setOpaque(false);
+        leftWrapper.add(backButton);
+        leftWrapper.add(saveButton);
+        leftWrapper.setMinimumSize(new Dimension(100, 45));
 
-        headerPanel.add(leftSpacer, BorderLayout.WEST);
+        headerPanel.add(leftWrapper, BorderLayout.WEST);
         headerPanel.add(timeElapsed, BorderLayout.CENTER);
         headerPanel.add(rightWrapper, BorderLayout.EAST);
 
@@ -69,19 +72,8 @@ public class GameScreen {
         centerWrapper.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         centerWrapper.add(gamePanel);
 
-        frame.add(headerPanel, BorderLayout.NORTH);
-        frame.add(centerWrapper, BorderLayout.CENTER);
-    }
-
-    public void show() {
-        frame.pack();
-        frame.setMinimumSize(new Dimension(600, 700));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    public JFrame getFrame() {
-        return frame;
+        add(headerPanel, BorderLayout.NORTH);
+        add(centerWrapper, BorderLayout.CENTER);
     }
 
     public void refresh() {
@@ -89,7 +81,5 @@ public class GameScreen {
         gamePanel.initializeLayout();
         gamePanel.revalidate();
         gamePanel.repaint();
-        frame.pack();
-        frame.setLocationRelativeTo(null);
     }
 }

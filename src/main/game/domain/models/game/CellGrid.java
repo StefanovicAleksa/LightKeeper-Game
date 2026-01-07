@@ -1,8 +1,11 @@
 package main.game.domain.models.game;
 
-import main.settings.GameConfig;
+import main.settings.domain.models.GameConfig;
+import java.io.Serializable;
 
-public class CellGrid {
+public class CellGrid implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private GameConfig config;
     private Cell[][] cells;
 
@@ -126,5 +129,4 @@ public class CellGrid {
 
         return true;
     }
-
 }
