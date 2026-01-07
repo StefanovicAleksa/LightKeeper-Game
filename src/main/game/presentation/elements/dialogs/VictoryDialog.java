@@ -1,5 +1,6 @@
 package main.game.presentation.elements.dialogs;
 
+import main.game.presentation.elements.game.CheckOptimalLabel;
 import main.game.presentation.elements.navigation.RestartButton;
 import main.game.presentation.elements.navigation.StartNewLevelButton;
 import main.game.service.GameManager;
@@ -19,7 +20,7 @@ import java.awt.Font;
 
 public class VictoryDialog extends JDialog {
 
-    public VictoryDialog(JFrame parent, GameManager gameManager, long seconds) {
+    public VictoryDialog(JFrame parent, GameManager gameManager, long seconds, int userBulbs) {
         super(parent, "Victory", true);
         ThemeConfig theme = gameManager.getThemeConfig();
 
@@ -27,14 +28,10 @@ public class VictoryDialog extends JDialog {
         contentPanel.setBackground(theme.getColorBackground());
         contentPanel.setBorder(BorderFactory.createLineBorder(theme.getColorText(), 1));
 
-        JPanel innerPanel = new JPanel(new BorderLayout());
+        JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
         innerPanel.setOpaque(false);
-        innerPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
-
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
-        titlePanel.setOpaque(false);
-        titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
+        innerPanel.setBorder(BorderFactory.createEmptyBorder(25, 40, 25, 40));
 
         JLabel mainTitle = new JLabel("VICTORY! 🎉");
         mainTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
@@ -46,22 +43,25 @@ public class VictoryDialog extends JDialog {
         subTitle.setForeground(theme.getColorLit());
         subTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        titlePanel.add(mainTitle);
-        titlePanel.add(Box.createVerticalStrut(5));
-        titlePanel.add(subTitle);
-
         long mins = seconds / 60;
         long secs = seconds % 60;
         String timeStr = String.format("Time: %02d:%02d", mins, secs);
 
-        JLabel timeLabel = new JLabel(timeStr, JLabel.CENTER);
+        JLabel timeLabel = new JLabel(timeStr);
         timeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         timeLabel.setForeground(theme.getColorText());
-        timeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
+        timeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-        buttonPanel.setOpaque(false);
+        JLabel statsLabel = new JLabel("Bulbs: " + userBulbs);
+        statsLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        statsLabel.setForeground(theme.getColorText().darker());
+        statsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        CheckOptimalLabel checkLabel = new CheckOptimalLabel(theme, gameManager, best -> {
+            statsLabel.setText(String.format("Bulbs: %d (Best: %d)", userBulbs, best));
+            innerPanel.revalidate();
+            innerPanel.repaint();
+        });
 
         StartNewLevelButton nextButton = new StartNewLevelButton(theme, e -> {
             gameManager.startNewGame();
@@ -80,13 +80,19 @@ public class VictoryDialog extends JDialog {
         restartButton.setMaximumSize(new Dimension(160, 35));
         restartButton.setPreferredSize(new Dimension(160, 35));
 
-        buttonPanel.add(nextButton);
-        buttonPanel.add(Box.createVerticalStrut(15));
-        buttonPanel.add(restartButton);
-
-        innerPanel.add(titlePanel, BorderLayout.NORTH);
-        innerPanel.add(timeLabel, BorderLayout.CENTER);
-        innerPanel.add(buttonPanel, BorderLayout.SOUTH);
+        innerPanel.add(mainTitle);
+        innerPanel.add(Box.createVerticalStrut(5));
+        innerPanel.add(subTitle);
+        innerPanel.add(Box.createVerticalStrut(20));
+        innerPanel.add(timeLabel);
+        innerPanel.add(Box.createVerticalStrut(5));
+        innerPanel.add(statsLabel);
+        innerPanel.add(Box.createVerticalStrut(5));
+        innerPanel.add(checkLabel);
+        innerPanel.add(Box.createVerticalStrut(20));
+        innerPanel.add(nextButton);
+        innerPanel.add(Box.createVerticalStrut(15));
+        innerPanel.add(restartButton);
 
         contentPanel.add(innerPanel, BorderLayout.CENTER);
 
@@ -96,9 +102,9 @@ public class VictoryDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
-    public static void show(JFrame parent, GameManager gameManager) {
+    public static void show(JFrame parent, GameManager gameManager, int userBulbs) {
         long time = gameManager.getCurrentSession().getTotalPlayTimeSeconds();
-        VictoryDialog dialog = new VictoryDialog(parent, gameManager, time);
+        VictoryDialog dialog = new VictoryDialog(parent, gameManager, time, userBulbs);
         dialog.setVisible(true);
     }
 }

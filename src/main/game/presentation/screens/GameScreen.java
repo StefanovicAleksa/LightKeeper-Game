@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 
@@ -57,7 +58,7 @@ public class GameScreen {
 
         JPanel leftSpacer = new JPanel();
         leftSpacer.setOpaque(false);
-        leftSpacer.setPreferredSize(new java.awt.Dimension(100, 45));
+        leftSpacer.setPreferredSize(new Dimension(100, 45));
 
         headerPanel.add(leftSpacer, BorderLayout.WEST);
         headerPanel.add(timeElapsed, BorderLayout.CENTER);
@@ -65,6 +66,7 @@ public class GameScreen {
 
         JPanel centerWrapper = new JPanel(new GridBagLayout());
         centerWrapper.setOpaque(false);
+        centerWrapper.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         centerWrapper.add(gamePanel);
 
         frame.add(headerPanel, BorderLayout.NORTH);
@@ -72,7 +74,8 @@ public class GameScreen {
     }
 
     public void show() {
-        frame.setSize(600, 750);
+        frame.pack();
+        frame.setMinimumSize(new Dimension(600, 700));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -86,5 +89,7 @@ public class GameScreen {
         gamePanel.initializeLayout();
         gamePanel.revalidate();
         gamePanel.repaint();
+        frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 }

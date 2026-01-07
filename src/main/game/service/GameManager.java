@@ -7,11 +7,11 @@ import main.game.domain.models.game.RegularCell;
 import main.game.domain.models.session.GameSession;
 import main.game.presentation.elements.dialogs.VictoryDialog;
 import main.game.presentation.screens.GameScreen;
+import main.game.utilities.GameSolver;
 import main.settings.GameConfig;
 import main.settings.ThemeConfig;
 
 import javax.swing.SwingUtilities;
-import javax.swing.JFrame;
 
 public class GameManager {
     private final GameConfig gameConfig;
@@ -36,6 +36,7 @@ public class GameManager {
 
     public void startNewGame() {
         this.grid.initializeCells();
+
         this.currentSession = new GameSession();
         this.currentSession.saveInitialBoardState(grid);
         this.currentSession.saveBoardState(grid);
@@ -44,6 +45,10 @@ public class GameManager {
         if (gameScreen != null) {
             gameScreen.refresh();
         }
+    }
+
+    public int getOptimalBulbCount() {
+        return new GameSolver(grid).solve();
     }
 
     public void restartLevel() {
@@ -77,10 +82,11 @@ public class GameManager {
 
         if (grid.isSolved()) {
             currentSession.complete();
+            int userBulbs = grid.getBulbCount();
 
             SwingUtilities.invokeLater(() -> {
                 if (gameScreen != null) {
-                    VictoryDialog.show(gameScreen.getFrame(), this);
+                    VictoryDialog.show(gameScreen.getFrame(), this, userBulbs);
                 }
             });
         }

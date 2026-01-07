@@ -6,8 +6,7 @@ public class CellGrid {
     private GameConfig config;
     private Cell[][] cells;
 
-    public CellGrid(GameConfig config)
-    {
+    public CellGrid(GameConfig config) {
         this.config = config;
         initializeCells();
     }
@@ -16,8 +15,7 @@ public class CellGrid {
         return cells;
     }
 
-    public void initializeCells()
-    {
+    public void initializeCells() {
         int n = config.getGridSize();
         double r = config.getWallRatio();
 
@@ -33,6 +31,19 @@ public class CellGrid {
         }
     }
 
+    public int getBulbCount() {
+        int count = 0;
+        int n = config.getGridSize();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (cells[i][j] instanceof RegularCell rc && rc.hasBulb()) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
     public void toggleMark(int i, int j) {
         if (cells[i][j] instanceof RegularCell cell && !cell.hasBulb()) {
             cell.setMarked(!cell.isMarked());
@@ -42,7 +53,6 @@ public class CellGrid {
     public void toggleBulb(int i, int j) {
         if(cells[i][j] instanceof RegularCell cell && !cell.isMarked()) {
             boolean toggleOn = !cell.hasBulb();
-
             cell.setHasBulb(toggleOn);
             if(toggleOn)
                 cell.changeLightLevel(1);
@@ -55,12 +65,10 @@ public class CellGrid {
             handleLightRay(i, j, 's', toggleOn, cell);
             handleLightRay(i, j, 'w', toggleOn, cell);
             handleLightRay(i, j, 'e', toggleOn, cell);
-
         }
     }
 
-    private void handleLightRay(int i, int j, char direction, boolean toggleOn, RegularCell source)
-    {
+    private void handleLightRay(int i, int j, char direction, boolean toggleOn, RegularCell source) {
         switch (direction) {
             case 'n': {
                 for (i = i - 1; i >= 0 && !cells[i][j].blocksLight(); i--) {
@@ -107,10 +115,8 @@ public class CellGrid {
     }
 
 
-    public boolean isSolved()
-    {
+    public boolean isSolved() {
         int n = config.getGridSize();
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (cells[i][j] instanceof RegularCell cell && (cell.getLightLevel() == 0 || cell.getBulbCollisionLevel() > 0))
