@@ -33,7 +33,7 @@ public class VictoryDialog extends JDialog {
         innerPanel.setOpaque(false);
         innerPanel.setBorder(BorderFactory.createEmptyBorder(25, 40, 25, 40));
 
-        JLabel mainTitle = new JLabel("VICTORY! 🎉");
+        JLabel mainTitle = new JLabel("VICTORY!");
         mainTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
         mainTitle.setForeground(theme.getColorLit());
         mainTitle.setAlignmentX(Component.CENTER_ALIGNMENT);

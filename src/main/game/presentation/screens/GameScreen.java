@@ -53,8 +53,8 @@ public class GameScreen {
 
         JPanel rightWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         rightWrapper.setOpaque(false);
-        rightWrapper.add(pauseButton);
         rightWrapper.add(helpButton);
+        rightWrapper.add(pauseButton);
 
         JPanel leftSpacer = new JPanel();
         leftSpacer.setOpaque(false);

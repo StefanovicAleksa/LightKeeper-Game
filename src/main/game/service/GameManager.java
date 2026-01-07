@@ -21,7 +21,7 @@ public class GameManager {
     private GameScreen gameScreen;
 
     public GameManager() {
-        this.gameConfig = new GameConfig(7, 0.3);
+        this.gameConfig = new GameConfig(15, 0.3);
         this.themeConfig = new ThemeConfig();
         this.grid = new CellGrid(gameConfig);
         startNewGame();
